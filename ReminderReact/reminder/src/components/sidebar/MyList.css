@@ -1,0 +1,17 @@
+.mylist-title {
+  font-size: 15px;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.list-item {
+  padding: 6px;
+  border-radius: 4px;
+  margin-bottom: 4px;
+  cursor: pointer;
+}
+
+.list-item.active {
+  background-color: #d0e6ff;
+  font-weight: bold;
+}

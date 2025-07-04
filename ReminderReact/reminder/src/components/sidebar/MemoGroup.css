@@ -1,0 +1,19 @@
+.memo-group-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+.group-item {
+  background-color: #ffffff;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  padding: 8px;
+  font-size: 13px;
+  text-align: center;
+  cursor: pointer;
+}
+
+.group-item:hover {
+  background-color: #eee;
+}

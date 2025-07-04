@@ -1,0 +1,17 @@
+.add-list-button-wrapper {
+  margin-top: auto;
+  text-align: right;
+}
+
+.add-list-button {
+  padding: 8px 14px;
+  background: none;
+  border: none;
+  color: #007bff;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.add-list-button:hover {
+  text-decoration: underline;
+}

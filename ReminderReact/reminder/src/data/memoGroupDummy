@@ -1,0 +1,9 @@
+const MemoGroupDummy = [
+  { id: 1, label: '오늘', count: 0 },
+  { id: 2, label: '예정', count: 0 },
+  { id: 3, label: '전체', count: 15 },
+  { id: 4, label: '깃발 표시', count: 3 },
+  { id: 5, label: '완료됨', count: 7 },
+];
+
+export default MemoGroupDummy;

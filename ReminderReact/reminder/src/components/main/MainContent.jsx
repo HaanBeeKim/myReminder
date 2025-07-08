@@ -1,68 +1,50 @@
-import React, { useState } from "react";
-import './MainContent.css';
+import React, { useEffect, useState } from "react";
+import axios from "axios";
+import ReminderForm from "./ReminderForm";
 
-
-
-
-/**
- * 메인 콘텐츠: 선택된 목록에 따른 메모 리스트 출력
- */
 const MainContent = ({ selectedList }) => {
+  const [allLists, setAllLists] = useState([]);
+  const [reminders, setReminders] = useState([]);
 
-  /**
-   * 더미 메모 상태
-   */
-  const [memos, setMemos] = useState([
-    { id: 1, text: "React 공부하기", done: false },
-    { id: 2, text: "친구 생일 선물 사기", done: true },
-    { id: 3, text: "운동 30분 하기", done: false }
-  ]);
+  // 전체 목록 불러오기
+  useEffect(() => {
+    axios.get("http://localhost:8080/api/lists")
+      .then((res) => setAllLists(res.data));
+  }, []);
 
+  // 선택된 이름 → ID로 변환
+  const selectedListId = allLists.find(list => list.name === selectedList)?.id;
 
-
-
-  /**
-   * 체크박스 클릭 시 완료 상태 토글
-   */
-  const toggleMemoDone = (id) => {
-    setMemos((prev) =>
-      prev.map((memo) =>
-        memo.id === id ? { ...memo, done: !memo.done } : memo
-      )
-    );
+  // 선택된 목록의 메모들 불러오기
+  const fetchReminders = () => {
+    if (!selectedListId) return;
+    axios.get(`http://localhost:8080/api/lists/${selectedListId}/memos`)
+      .then((res) => setReminders(res.data));
   };
 
+  useEffect(() => {
+    fetchReminders();
+  }, [selectedListId]);
 
-
-
-  /**
-   * return()
-   */
   return (
-    <main className="main-content">
-
-      {/* 타이틀 */}
+    <div className="main-content">
       <h2>{selectedList}</h2>
 
-      {/* 메모 목록 */}
+      <ReminderForm
+        selectedList={selectedList}
+        allLists={allLists}
+        onMemoAdded={fetchReminders}
+      />
+
       <ul className="memo-list">
-        {memos.map((memo) => (
-          <li key={memo.id} className="memo-item">
-            <input
-              type="checkbox"
-              checked={memo.done}
-              onChange={() => toggleMemoDone(memo.id)}
-            />
-            <span className={memo.done ? "done" : ""}>{memo.text}</span>
+        {reminders.map((memo) => (
+          <li key={memo.id} className={`memo-item ${memo.isDone ? 'done' : ''}`}>
+            <input type="checkbox" checked={memo.isDone} readOnly />
+            <span>{memo.title}</span>
           </li>
         ))}
       </ul>
-
-      {/* 새로운 메모 추가 버튼 */}
-      <div className="add-memo-button-wrapper">
-        <button className="add-memo-button">+ 새로운 메모</button>
-      </div>
-    </main>
+    </div>
   );
 };
 
